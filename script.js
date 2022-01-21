@@ -1,66 +1,55 @@
 import {languageDetailsMap} from './details.js';
 
-const WRAPPER_ELEMENTS = document.getElementsByClassName("wrapper");
+const WRAPPER_ELEMENTS = Array.from(document.getElementsByClassName("wrapper"));
+const PHP_IMAGE = document.getElementById("php");
+
+const PERFORM_PHP_LANGUAGE_EVENT = document.querySelector(".blue");
+const PERFORM_RANDOM_LANGUAGE_EVENT = document.querySelector(".red");
 
 const RGB_BLACK_COLOR = "rgb(0, 0, 0)";
 const RGB_YELLOW_COLOR = "rgb(255, 255, 0)";
+const BLUR_EFFECT = "blur(5px)";
+
 const SLEEP_MILISECONDS = 50;
 const PHP = "php";
 const EVENT_LISTENER = "click";
 
+var randomElement;
 
-document.querySelector(".red").addEventListener(EVENT_LISTENER, () => {
+
+PERFORM_RANDOM_LANGUAGE_EVENT.addEventListener(EVENT_LISTENER, () => {
     setDefaultStyle();
-    drawing();
+    getRandomElementAndChangeColors();
+    setLanguageDetailsToElementByKey(randomElement.id);
 });
 
-document.querySelector(".blue").addEventListener(EVENT_LISTENER, () => {
+
+PERFORM_PHP_LANGUAGE_EVENT.addEventListener(EVENT_LISTENER, () => {
     setDefaultStyle();
-    selectPhp()
+    setBlurWithoutElement(PHP_IMAGE);
+    changeBackgroundColor(PHP_IMAGE, RGB_YELLOW_COLOR)
+    setLanguageDetailsToElementByKey(PHP);
 });
 
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
-async function drawing() {
+async function getRandomElementAndChangeColors() {
     for (let i = 0; i <= WRAPPER_ELEMENTS.length; i++) {
-        var randomIndex = getRadomIndexFromArray();
-        var randomElement = getElementFromArrayByRandomIndex(randomIndex);
-        changeBackgroundColor(randomElement, RGB_YELLOW_COLOR);
-        await waitToNiceVisualEffect(SLEEP_MILISECONDS);
+        randomElement = getElementFromArrayByRandomIndex(getRandomIndexFromArray());
 
+        changeBackgroundColor(randomElement, RGB_YELLOW_COLOR);
+
+        await waitToNiceVisualEffect(SLEEP_MILISECONDS);
 
         if(i != WRAPPER_ELEMENTS.length) {
             changeBackgroundColor(randomElement, RGB_BLACK_COLOR);
         }
-    }
 
-    setBlurStyleWithoutLastSelectedElement(randomIndex);
-    setLanguageDetailsToElement(randomElement.id);
-}
-
-function selectPhp() {
-    Array.from(WRAPPER_ELEMENTS).forEach((element) => {
-        element.style.filter = 'blur(5px)';
-    });
-
-    changeBackgroundColor(document.getElementById(PHP), RGB_YELLOW_COLOR)
-    setLanguageDetailsToElement(PHP);
-}
-
-function setBlurStyleWithoutLastSelectedElement(randomIndex) {
-    for (let i = 0; i < WRAPPER_ELEMENTS.length; i++) {
-        if(i == randomIndex){
-            continue;
+        if (i == WRAPPER_ELEMENTS.length) {
+            setBlurWithoutElement(randomElement);
         }
-
-        addBlurToElementClass(i);
     }
-}
-
-function setDefaultStyle() {
-    Array.from(WRAPPER_ELEMENTS).forEach((el) => {
-        el.style.removeProperty("filter");
-        el.style.removeProperty("background-color");
-    });
 }
 
 function getElementFromArrayByRandomIndex(randomIndex) {
@@ -71,20 +60,31 @@ function changeBackgroundColor(element, color) {
     element.style.backgroundColor = color;
 }
 
+function setBlurWithoutElement(elementWithoutBlur) {
+    WRAPPER_ELEMENTS
+        .filter(element => element != elementWithoutBlur)
+        .forEach((element) => {
+            element.style.filter = BLUR_EFFECT;
+        });
+}
+
+function setLanguageDetailsToElementByKey(languageDetailsMapKey) {
+    document.querySelector(".language_details").textContent = languageDetailsMap.get(languageDetailsMapKey);
+}
+
+function getRandomIndexFromArray() {
+    return getRandomIndex(0, WRAPPER_ELEMENTS.length);
+}
+
 function waitToNiceVisualEffect(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function setLanguageDetailsToElement(languageDetailsMapKey) {
-    document.querySelector(".language_details").textContent = languageDetailsMap.get(languageDetailsMapKey);
-}
-
-function addBlurToElementClass(iterator) {
-    WRAPPER_ELEMENTS[iterator].style.filter = 'blur(5px)';
-}
-
-function getRadomIndexFromArray() {
-    return getRandomIndex(0, WRAPPER_ELEMENTS.length);
+function setDefaultStyle() {
+    WRAPPER_ELEMENTS.forEach((element) => {
+        element.style.removeProperty("filter");
+        element.style.removeProperty("background-color");
+    });
 }
 
 function getRandomIndex(min, max) {
