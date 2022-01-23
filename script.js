@@ -92,3 +92,6 @@ function getRandomIndex(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
+console.log("What are you looking at? You can send your answer to urbaniak.michal@yahoo.com or high-five on www.linkedin.com/in/urLToMichalUrbaniakProfile
+");
