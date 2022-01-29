@@ -4,55 +4,53 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const RGB_BLACK_COLOR = "rgb(0, 0, 0)";
     const RGB_YELLOW_COLOR = "rgb(255, 255, 0)";
-    const BLUR_EFFECT = "blur(5px)";
-
-    const DELAY = 50;
-    const PHP = "php";
-    const EVENT = "click";
 
     const WRAPPER_ELEMENTS = Array.from(document.getElementsByClassName("wrapper"));
-    const PHP_IMAGE = document.getElementById(PHP);
-
-    const PERFORM_PHP_LANGUAGE_EVENT = document.querySelector(".blue");
-    const PERFORM_RANDOM_LANGUAGE_EVENT = document.querySelector(".red");
+    const PHP_IMAGE = document.getElementById("php");
 
 
-
-    PERFORM_RANDOM_LANGUAGE_EVENT.addEventListener(EVENT, () => {
-        setDefaultStyle();
-        let randomElement = getRandomElementAndChangeColors();
-        setLanguageDetailsToElementByKey(randomElement.id);
+    document.querySelector(".red").addEventListener("click", () => {
+        setDefaultProperties();
+        changeProperties();
     });
 
-    PERFORM_PHP_LANGUAGE_EVENT.addEventListener(EVENT, () => {
-        setDefaultStyle();
+    document.querySelector(".blue").addEventListener("click", () => {
+        setDefaultProperties();
         setBlurWithoutLastElement(PHP_IMAGE);
         changeBackgroundColor(PHP_IMAGE, RGB_YELLOW_COLOR)
-        setLanguageDetailsToElementByKey(PHP);
-
+        setLanguageDetailsToElementByKey(PHP_IMAGE.id);
     });
 
-
-    async function getRandomElementAndChangeColors() {
-        let randomElement;
+    async function changeProperties() {
         for (let i = 0; i <= WRAPPER_ELEMENTS.length; i++) {
-            randomElement = getElementFromArrayByRandomIndex(getRandomIndexFromArray());
+            let index = getRandomIndexWithRange(0, WRAPPER_ELEMENTS.length);
+            let element = WRAPPER_ELEMENTS[index];
 
-            changeBackgroundColor(randomElement, RGB_YELLOW_COLOR);
-
-            await waitToNiceVisualEffect(DELAY);
+            changeBackgroundColor(element, RGB_YELLOW_COLOR);
+            await sleepMiliseconds(50);
+            changeBackgroundColor(element, RGB_BLACK_COLOR);
 
             if(isLastElement(i)) {
-                setBlurWithoutLastElement(randomElement);
-            } else {
-                changeBackgroundColor(randomElement, RGB_BLACK_COLOR);
-            }
+                changePropertiesForLastElement(element);
+            } 
         }
-        return randomElement;
     }
 
-    function getElementFromArrayByRandomIndex(randomIndex) {
-        return WRAPPER_ELEMENTS[randomIndex];
+    function changePropertiesForLastElement(element) {
+        setBlurWithoutLastElement(element);
+        changeBackgroundColor(element, RGB_YELLOW_COLOR);
+        addClassWithAnimationIfElementIsNotPhp(element);
+        setLanguageDetailsToElementByKey(element.id);
+    }
+
+    function isLastElement(i) {
+        return i === WRAPPER_ELEMENTS.length;
+    }
+
+    function addClassWithAnimationIfElementIsNotPhp(element) {
+        if(element.id !== PHP_IMAGE.id) {
+            element.classList.add("select");
+        }
     }
 
     function changeBackgroundColor(element, color) {
@@ -62,36 +60,37 @@ document.addEventListener("DOMContentLoaded", function() {
     function setBlurWithoutLastElement(elementWithoutBlur) {
         WRAPPER_ELEMENTS
             .filter(element => element != elementWithoutBlur)
-            .forEach((element) => {element.style.filter = BLUR_EFFECT;});
+            .forEach((element) => {element.style.filter = "blur(5px)";});
     }
 
     function setLanguageDetailsToElementByKey(languageDetailsMapKey) {
-        document.querySelector(".language_details").textContent = languageDetailsMap.get(languageDetailsMapKey);
+        const elementDetails = document.querySelector(".language_details");
+        const langDetails = languageDetailsMap.get(languageDetailsMapKey);
+
+        if(elementDetails === null || langDetails === null) {
+            elementDetails.textContent = "Not working because we have NPE problem here. Check details in the console.";
+            return;
+        }
+
+        elementDetails.textContent = langDetails;
     }
 
-    function getRandomIndexFromArray() {
-        return getRandomIndex(0, WRAPPER_ELEMENTS.length);
+    function sleepMiliseconds(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    function waitToNiceVisualEffect(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    function setDefaultStyle() {
+    function setDefaultProperties() {
         WRAPPER_ELEMENTS.forEach((element) => {
             element.style.removeProperty("filter");
             element.style.removeProperty("background-color");
+            element.classList.remove("select");
         });
     }
 
-    function getRandomIndex(min, max) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min)) + min;
-    }
-
-    function isLastElement(i) {
-        return i === WRAPPER_ELEMENTS.length;
+    function getRandomIndexWithRange(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
     }
 
     console.log("What are you looking at? You can send your answer to urbaniak.michal@yahoo.com or high-five on www.linkedin.com/in/urLToMichalUrbaniakProfile");
