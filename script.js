@@ -1,4 +1,5 @@
 import {languageDetailsMap} from './details.js';
+import {isNullOrUndefinied} from './checker.js';
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -8,18 +9,24 @@ document.addEventListener("DOMContentLoaded", function() {
     const WRAPPER_ELEMENTS = Array.from(document.getElementsByClassName("wrapper"));
     const PHP_IMAGE = document.getElementById("php");
 
+    let redPill = document.querySelector(".red");
+    if(!isNullOrUndefinied(redPill)) {
+        document.querySelector(".red").addEventListener("click", () => {
+            setDefaultProperties();
+            changeProperties();
+        });
+    }
 
-    document.querySelector(".red").addEventListener("click", () => {
-        setDefaultProperties();
-        changeProperties();
-    });
+    let bluePill = document.querySelector(".red");
+    if(!isNullOrUndefinied(bluePill)) {
+        document.querySelector(".blue").addEventListener("click", () => {
+            setDefaultProperties();
+            setBlur(PHP_IMAGE);
+            changeBackgroundColor(PHP_IMAGE, RGB_YELLOW_COLOR)
+            setLanguageDetailsToElementByKey(PHP_IMAGE.id);
+        });
+    }
 
-    document.querySelector(".blue").addEventListener("click", () => {
-        setDefaultProperties();
-        setBlurWithoutLastElement(PHP_IMAGE);
-        changeBackgroundColor(PHP_IMAGE, RGB_YELLOW_COLOR)
-        setLanguageDetailsToElementByKey(PHP_IMAGE.id);
-    });
 
     async function changeProperties() {
         for (let i = 0; i <= WRAPPER_ELEMENTS.length; i++) {
@@ -37,9 +44,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function changePropertiesForLastElement(element) {
-        setBlurWithoutLastElement(element);
+        setBlur(element);
         changeBackgroundColor(element, RGB_YELLOW_COLOR);
-        addClassWithAnimationIfElementIsNotPhp(element);
+        addClassWithAnimation(element);
         setLanguageDetailsToElementByKey(element.id);
     }
 
@@ -47,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return i === WRAPPER_ELEMENTS.length;
     }
 
-    function addClassWithAnimationIfElementIsNotPhp(element) {
+    function addClassWithAnimation(element) {
         if(element.id !== PHP_IMAGE.id) {
             element.classList.add("select");
         }
@@ -57,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
         element.style.backgroundColor = color;
     }
 
-    function setBlurWithoutLastElement(elementWithoutBlur) {
+    function setBlur(elementWithoutBlur) {
         WRAPPER_ELEMENTS
             .filter(element => element != elementWithoutBlur)
             .forEach((element) => {element.style.filter = "blur(5px)";});
@@ -67,8 +74,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const elementDetails = document.querySelector(".language_details");
         const langDetails = languageDetailsMap.get(languageDetailsMapKey);
 
-        if(elementDetails === null || langDetails === null) {
-            elementDetails.textContent = "Not working because we have NPE problem here. Check details in the console.";
+        if(isNullOrUndefinied(elementDetails)) {
+            elementDetails.textContent = "Not working because we have problem here. Check details in the console.";
             return;
         }
 
