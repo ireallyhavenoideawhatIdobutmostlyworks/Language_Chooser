@@ -11,15 +11,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let redPill = document.querySelector(".red");
     if(!isNullOrUndefinied(redPill)) {
-        document.querySelector(".red").addEventListener("click", () => {
+        redPill.addEventListener("click", () => {
             setDefaultProperties();
             changeProperties();
         });
     }
 
-    let bluePill = document.querySelector(".red");
+    let bluePill = document.querySelector(".blue");
     if(!isNullOrUndefinied(bluePill)) {
-        document.querySelector(".blue").addEventListener("click", () => {
+        bluePill.addEventListener("click", () => {
             setDefaultProperties();
             setBlur(PHP_IMAGE);
             changeBackgroundColor(PHP_IMAGE, RGB_YELLOW_COLOR)
@@ -38,12 +38,12 @@ document.addEventListener("DOMContentLoaded", function() {
             changeBackgroundColor(element, RGB_BLACK_COLOR);
 
             if(isLastElement(i)) {
-                changePropertiesForLastElement(element);
+                changeElementProperties(element);
             } 
         }
     }
 
-    function changePropertiesForLastElement(element) {
+    function changeElementProperties(element) {
         setBlur(element);
         changeBackgroundColor(element, RGB_YELLOW_COLOR);
         addClassWithAnimation(element);
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function setBlur(elementWithoutBlur) {
         WRAPPER_ELEMENTS
             .filter(element => element != elementWithoutBlur)
-            .forEach((element) => {element.style.filter = "blur(5px)";});
+            .forEach((element) => element.style.filter = "blur(5px)");
     }
 
     function setLanguageDetailsToElementByKey(languageDetailsMapKey) {
@@ -75,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const langDetails = languageDetailsMap.get(languageDetailsMapKey);
 
         if(isNullOrUndefinied(elementDetails)) {
-            elementDetails.textContent = "Not working because we have problem here. Check details in the console.";
             return;
         }
 
@@ -101,4 +100,5 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     console.log("What are you looking at? You can send your answer to urbaniak.michal@yahoo.com or high-five on www.linkedin.com/in/urLToMichalUrbaniakProfile");
+    console.log("By the way: it is not work correctly if you click more red pill than once :D I am wondering who will find this :D");
 });

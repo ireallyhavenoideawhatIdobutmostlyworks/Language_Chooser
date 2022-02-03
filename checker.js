@@ -1,1 +1,1 @@
-export const isNullOrUndefinied = (element) => (element === null) && (element === undefined);
+export const isNullOrUndefinied = (element) => (element === null) || (element === undefined);
