@@ -2,9 +2,9 @@
 
 </br>
 
-<h2>Don't know what technology to use to write a project? </h2>
-<h2>Don't know what buzzword to put on your CV? </h2>
-<h2>Pick a programming language and impress your CEO!</h2>
+# Don't know what technology to use to write a project? </br>
+# Don't know what buzzword to put on your CV? </br>
+# Pick a programming language and impress your CEO! </br>
 
 </br>
 </br>
