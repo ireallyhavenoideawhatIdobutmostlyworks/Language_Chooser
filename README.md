@@ -2,15 +2,15 @@
 
 </br>
 
-# Don't know what technology to use to write a project? </br>
-# Don't know what buzzword to put on your CV? </br>
-# Pick a programming language and impress your CEO! </br>
+### Don't know what technology to use to write a project? </br>
+#### Don't know what buzzword to put on your CV? </br>
+##### Pick a programming language and impress your CEO! </br>
 
 </br>
 </br>
 </br>
 
-<img src="./readme/gif/lc.gif" width="600" height="200" />
+<img src="./readme/gif/lc.gif" width="1200" height="400" />
 
 <h6>No RWD version :D</h6>
 
