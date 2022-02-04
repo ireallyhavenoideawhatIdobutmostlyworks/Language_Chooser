@@ -3,15 +3,14 @@
 </br>
 
 <h2>Don't know what technology to use to write a project? </h2>
-<h3>Don't know what buzzword to put on your CV? </h3>
-<h4>Pick a programming language and impress your CEO!</h4>
+<h2>Don't know what buzzword to put on your CV? </h2>
+<h2>Pick a programming language and impress your CEO!</h2>
 
 </br>
 </br>
 </br>
 
-<!-- ![app GIF](./readme/gif/lc.gif) -->
-<img src="./readme/gif/lc.gif" width="300" height="100" />
+<img src="./readme/gif/lc.gif" width="600" height="200" />
 
 <h6>No RWD version :D</h6>
 
@@ -20,3 +19,9 @@
 </br>
 
 Used technologies:  </br>
+<img src="./readme/image/css.png" width="50" height="50" /> </br>
+<img src="./readme/image/HTML5.png" width="50" height="50" /> </br>
+<img src="./readme/image/js.png" width="50" height="50" /> </br>
+<img src="./readme/image/mouse.png" width="50" height="50" /> </br>
+<img src="./readme/image/laptop.png" width="50" height="50" /> </br>
+<img src="./readme/image/coffee.png" width="50" height="50" /> </br>
